@@ -1,0 +1,86 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+
+# Logs and secrets
+*.log
+.env
+.env.*
+!.env.example
+*.keystore
+google-services.json
+GoogleService-Info.plist
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Sensor datasets (keep notes / gitkeep)
+ai/data/raw/*
+!ai/data/raw/.gitkeep
+!ai/data/raw/README.md
+ai/data/processed/*
+!ai/data/processed/.gitkeep
+!ai/data/processed/README.md
+
+# Trained model artifacts
+ai/models/*
+!ai/models/.gitkeep
+!ai/models/README.md
+*.joblib
+*.pkl
+*.pickle
+*.onnx
+*.tflite
+*.h5
+*.pt
+*.pth
+
+# Evaluation outputs
+ai/evaluation/*
+!ai/evaluation/.gitkeep
+!ai/evaluation/README.md
+
+# Mobile / React Native / Android / iOS
+mobile/node_modules/
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/local.properties
+mobile/android/.idea/
+mobile/ios/Pods/
+mobile/ios/build/
+mobile/vendor/bundle/
+mobile/*.jsbundle
+mobile/.bundle/
+coverage/
+*.hprof
+.cxx/
+.kotlin/
+
+# Metro
+*.js.map
