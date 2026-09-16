@@ -19,8 +19,9 @@ Only safe simulated activities are permitted for future sensor testing. M1 colle
 
 - TypeScript and ESLint passed.
 - Jest: 8 tests passed in 2 suites, including all Home routes and Back navigation.
-- Android debug build: successful (226 tasks; 4m 24s).
+- Android debug build rerun: successful (226 tasks; 3m 25s). TypeScript, ESLint, and all 8 Jest tests also passed again during this runtime-acceptance attempt.
 - Android production-mode JavaScript bundling: passed. Upstream React Native internal-export fallback warning remains.
-- Device acceptance blocked: `adb devices` returned no devices; `emulator -list-avds` returned no AVDs. App launch, native rendering/navigation, native MMKV persistence, and runtime console/logcat checks have not been verified.
+- Device acceptance rechecked at 19:00 PKT: `SafeHer_M1_API29` and its API 29 x86_64 system image are installed. The emulator started at 12:43 with `-accel off -gpu software -no-window -no-snapshot` but remains offline after over six hours and an ADB offline reconnect. `emulator -accel-check` reports virtualization extensions unavailable. No physical device is connected. App launch, native rendering/navigation, native MMKV persistence, and runtime console/logcat checks have not been verified.
+- Required manual action: connect and authorize an Android device (API 26+) over ADB, or enable host/nested virtualization and provide a booted emulator. This blocks foundation runtime acceptance, not merely later hardware sensor checks; the requested sequential M1–M7 execution therefore stops at M1.
 
 The Progress Ledger intentionally leaves M1 unchecked pending these device checks. No Milestone 2 functionality is included.

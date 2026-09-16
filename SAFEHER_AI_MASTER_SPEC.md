@@ -1736,7 +1736,7 @@ Last successful ML pipeline run: `NOT SET`
 
 Latest model version: `NOT SET`
 
-Known blockers: `No connected Android device and no configured AVD. App launch, native navigation/rendering, native MMKV persistence, and critical runtime-log checks remain unverified.`
+Known blockers: `M1 runtime acceptance: SafeHer_M1_API29 exists with an installed API 29 x86_64 image, but emulator-5554 remains offline after over six hours running with acceleration disabled and after an ADB reconnect. emulator -accel-check reports virtualization extensions unavailable. No physical device is connected. App launch, native navigation/rendering, native MMKV persistence, and critical runtime-log checks remain unverified. Connect an authorized Android device (API 26+) or enable host/nested virtualization and boot a working emulator before proceeding through the sequential milestone acceptance gate.`
 
 M1 validation (2026-09-16): 8 Jest tests passed in 2 suites; ESLint and Android JS bundle passed. Storage smoke tests use a mocked native backend. All seven Home destinations and Back navigation pass in Jest. Domain contracts, storage validation/defaults, accessibility labels, and testing/demo docs aligned; existing foundation preserved. No dependencies added. See `docs/testing.md`. M1 remains unchecked until device acceptance; M2 not started.
 
