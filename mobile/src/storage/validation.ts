@@ -1,23 +1,40 @@
 const record = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
+const date = (value: unknown) =>
+  typeof value === 'string' && Number.isFinite(Date.parse(value));
+const finite = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isFinite(value);
+const optionalString = (value: unknown) =>
+  value === undefined || typeof value === 'string';
+const person = (value: Record<string, unknown>) =>
+  typeof value.id === 'string' &&
+  typeof value.name === 'string' &&
+  typeof value.phoneNumber === 'string' &&
+  date(value.createdAt) &&
+  date(value.updatedAt);
 export function isStoredValue(key: string, value: unknown): boolean {
   if (key === 'profile') {
     return (
       value === null ||
       (record(value) &&
-        typeof value.id === 'string' &&
-        typeof value.name === 'string' &&
-        (value.medicalNote === undefined ||
-          typeof value.medicalNote === 'string'))
+        person(value) &&
+        optionalString(value.optionalMedicalNote))
     );
   }
   if (key === 'settings') {
     return (
       record(value) &&
-      typeof value.countdownSeconds === 'number' &&
-      Number.isFinite(value.countdownSeconds) &&
+      finite(value.countdownSeconds) &&
       value.countdownSeconds > 0 &&
-      typeof value.autoEscalate === 'boolean'
+      [
+        'protectionEnabled',
+        'shakeEnabled',
+        'aiDetectionEnabled',
+        'panicAlarmEnabled',
+        'recordingEnabled',
+        'autoEscalateEnabled',
+        'locationInEmergencyEnabled',
+      ].every(field => typeof value[field] === 'boolean')
     );
   }
   if (!Array.isArray(value)) {
@@ -27,11 +44,12 @@ export function isStoredValue(key: string, value: unknown): boolean {
     return value.every(
       item =>
         record(item) &&
-        typeof item.id === 'string' &&
-        typeof item.name === 'string' &&
-        typeof item.phone === 'string' &&
-        typeof item.priority === 'number' &&
-        Number.isFinite(item.priority),
+        person(item) &&
+        finite(item.priority) &&
+        Number.isInteger(item.priority) &&
+        item.priority >= 0 &&
+        typeof item.enabled === 'boolean' &&
+        optionalString(item.relationshipOptional),
     );
   }
   return (
@@ -40,15 +58,43 @@ export function isStoredValue(key: string, value: unknown): boolean {
       item =>
         record(item) &&
         typeof item.id === 'string' &&
-        typeof item.createdAt === 'string' &&
-        Number.isFinite(Date.parse(item.createdAt)) &&
-        ['sos_button', 'shake', 'ai_fall', 'voice'].includes(
-          String(item.source),
+        date(item.timestamp) &&
+        ['sos_button', 'shake', 'ai_fall', 'voice', 'test'].includes(
+          String(item.triggerSource),
         ) &&
-        ['triggered', 'cancelled', 'composer_opened', 'failed'].includes(
-          String(item.status),
+        [
+          'triggered',
+          'awaiting_confirmation',
+          'cancelled',
+          'location_acquired',
+          'location_unavailable',
+          'composer_opened',
+          'sent',
+          'send_failed',
+          'permission_denied',
+          'completed',
+        ].includes(String(item.status)) &&
+        ['none', 'composer', 'direct'].includes(String(item.smsMode)) &&
+        finite(item.contactCount) &&
+        Number.isInteger(item.contactCount) &&
+        item.contactCount >= 0 &&
+        typeof item.cancelledByUser === 'boolean' &&
+        ['notesOptional', 'errorCodeOptional', 'aiClassOptional'].every(field =>
+          optionalString(item[field]),
         ) &&
-        (item.note === undefined || typeof item.note === 'string'),
+        (item.latitudeOptional === undefined ||
+          (finite(item.latitudeOptional) &&
+            Math.abs(item.latitudeOptional) <= 90)) &&
+        (item.longitudeOptional === undefined ||
+          (finite(item.longitudeOptional) &&
+            Math.abs(item.longitudeOptional) <= 180)) &&
+        (item.locationAccuracyOptional === undefined ||
+          (finite(item.locationAccuracyOptional) &&
+            item.locationAccuracyOptional >= 0)) &&
+        (item.aiConfidenceOptional === undefined ||
+          (finite(item.aiConfidenceOptional) &&
+            item.aiConfidenceOptional >= 0 &&
+            item.aiConfidenceOptional <= 1)),
     )
   );
 }

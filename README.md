@@ -64,3 +64,5 @@ To run after a successful build, connect an Android device with USB debugging or
 - `mobile/src/permissions/`: just-in-time permission contract; no native requests yet.
 
 No profile/contact editor or emergency workflow is implemented. MMKV is app-local, not configured with application-level encryption; do not treat this prototype as a secure vault. Android backup is disabled.
+
+For current acceptance results and device checks, see [testing](docs/testing.md) and the master specification Progress Ledger. The demo script is in [docs/demo-script.md](docs/demo-script.md).

@@ -38,3 +38,33 @@ test('Home SOS opens only the SOS preview route', async () => {
   expect(navigate).toHaveBeenCalledWith('SOS');
   await ReactTestRenderer.act(() => tree.unmount());
 });
+
+test('Home exposes every foundation destination', async () => {
+  let tree!: ReactTestRenderer.ReactTestRenderer;
+  await ReactTestRenderer.act(() => {
+    tree = ReactTestRenderer.create(<App />);
+  });
+  const routes = [
+    'SOS',
+    'Emergency Contacts',
+    'Safety Tools',
+    'AI Detection',
+    'Emergency History',
+    'Profile',
+    'Settings',
+  ];
+  for (const route of routes) {
+    const button = tree.root.findAll(
+      node =>
+        typeof node.props.onPress === 'function' &&
+        node.props.accessibilityLabel ===
+          (route === 'SOS' ? 'SOS preview. Does not send alerts' : route),
+    )[0];
+    expect(button).toBeDefined();
+    await ReactTestRenderer.act(() => button.props.onPress());
+    const navigation = tree.root.findByType(HomeScreen).props.navigation;
+    expect(navigation.getState().routes.at(-1).name).toBe(route);
+    await ReactTestRenderer.act(() => navigation.goBack());
+  }
+  await ReactTestRenderer.act(() => tree.unmount());
+});

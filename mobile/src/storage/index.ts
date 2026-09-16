@@ -20,7 +20,16 @@ const defaults: Schema = {
   profile: null,
   contacts: [],
   history: [],
-  settings: { countdownSeconds: 15, autoEscalate: false },
+  settings: {
+    countdownSeconds: 15,
+    autoEscalateEnabled: false,
+    protectionEnabled: false,
+    shakeEnabled: false,
+    aiDetectionEnabled: false,
+    panicAlarmEnabled: false,
+    recordingEnabled: false,
+    locationInEmergencyEnabled: false,
+  },
 };
 export function createLocalStorage(backend: StringStore) {
   return {

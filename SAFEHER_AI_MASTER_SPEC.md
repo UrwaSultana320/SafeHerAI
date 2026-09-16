@@ -1717,7 +1717,7 @@ The project is complete when:
 Codex updates this after each completed milestone.
 
 - [ ] Milestone 0 - Environment and baseline
-- [ ] Milestone 1 - Application foundation
+- [ ] Milestone 1 - Application foundation (implementation ready; device acceptance pending)
 - [ ] Milestone 2 - Emergency core
 - [ ] Milestone 3 - Original safety tools
 - [ ] Milestone 4 - Sensor data collection
@@ -1726,17 +1726,19 @@ Codex updates this after each completed milestone.
 - [ ] Milestone 7 - Testing, documentation and demo polish
 - [ ] Milestone 8 - Optional stretch work
 
-Current milestone: `NOT SET`
+Current milestone: `M1 - implementation ready; device acceptance blocked (2026-09-16)`
 
-Last successful Android build: `NOT SET`
+Last successful Android build: `2026-09-16 - npm run build:android; assembleDebug successful`
 
-Last successful TypeScript check: `NOT SET`
+Last successful TypeScript check: `2026-09-16 - npm run typecheck`
 
 Last successful ML pipeline run: `NOT SET`
 
 Latest model version: `NOT SET`
 
-Known blockers: `NONE RECORDED`
+Known blockers: `No connected Android device and no configured AVD. App launch, native navigation/rendering, native MMKV persistence, and critical runtime-log checks remain unverified.`
+
+M1 validation (2026-09-16): 8 Jest tests passed in 2 suites; ESLint and Android JS bundle passed. Storage smoke tests use a mocked native backend. All seven Home destinations and Back navigation pass in Jest. Domain contracts, storage validation/defaults, accessibility labels, and testing/demo docs aligned; existing foundation preserved. No dependencies added. See `docs/testing.md`. M1 remains unchecked until device acceptance; M2 not started.
 
 ---
 

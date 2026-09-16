@@ -42,11 +42,11 @@ Installed existing template dependencies, including React 19.2.3, React Native 0
 ## Validation
 
 - TypeScript: passed (`npm run typecheck`).
-- Jest: six tests passed across two suites, including Home SOS navigation, all four storage categories, corrupt/invalid saved data preservation, and inactive service/permission behavior.
+- Jest: eight tests passed across two suites on 2026-09-16, including every Home destination and Back navigation, all four storage categories, corrupt/invalid saved data preservation, safe defaults, invalid writes, and inactive service/permission behavior.
 - ESLint: passed (`npm run lint`).
 - Metro Android production-mode JavaScript bundle: passed. One upstream React Native internal-export fallback warning remains; this did not prevent bundling.
-- Native Android build: verification in progress.
-- Device/emulator execution: not verified. The VM's platform-tools directory initially contained only installer metadata, without `adb.exe`.
+- Native Android build: passed on 2026-09-16 (`npm run build:android`, assembleDebug, 226 tasks, 4m 24s). Gradle deprecation and cross-drive hard-link copy fallback warnings are non-fatal.
+- Device/emulator execution: blocked on 2026-09-16. adb is installed but reports no connected devices; emulator -list-avds reports no configured AVDs. Launch, native storage persistence, and runtime log acceptance remain unverified.
 
 Native MMKV is mocked in Jest. Repository tests do not establish on-device persistence or Android rendering correctness.
 
@@ -59,3 +59,7 @@ Native MMKV is mocked in Jest. Repository tests do not establish on-device persi
 - Android minimum API 26 follows the plan.
 
 Gradle 9.4.1 and an Adoptium Java 17 compilation toolchain were downloaded into the standard user Gradle cache. The launcher discovers the existing Android Studio JBR and SDK; global environment settings were not edited.
+
+## Master specification alignment (2026-09-16)
+
+Completed domain fields and sensor contracts without implementing sensor collection, strengthened storage validation, kept all feature settings disabled by default, added explicit accessible Home shortcut labels, and completed testing/demo documentation. No dependencies added in this update. The milestone remains pending device acceptance; Milestone 2 has not started.

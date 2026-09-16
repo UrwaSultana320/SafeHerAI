@@ -27,3 +27,9 @@ React Navigation native-stack connects eight screens. MMKV stores `v1.profile`, 
 Service contracts live together in `mobile/src/services/index.ts` until real adapters justify separate folders. Every adapter returns `not_implemented`. The SOS button only navigates to a preview. Permission requests are inactive and no dangerous Android permissions are declared. No global state package is needed for these placeholders.
 
 Navigation uses the Android fragment restoration setup from the [React Navigation guide](https://reactnavigation.org/docs/getting-started/).
+
+## Specification alignment (2026-09-16)
+
+Preserved the imported foundation, completed the master-spec domain types (including sensor data contracts only), and aligned storage validation and conservative defaults. Added navigation coverage for all seven Home destinations, storage default/write validation coverage, and testing/demo documentation. No dependencies or future milestone behaviors were added.
+
+The pre-spec scaffold's abbreviated profile/contact/settings/history shapes are not accepted by the finalized validators. Existing invalid records remain preserved and reported; no automatic deletion or fabricated migration is performed. The preview has no data editors and no released schema migration is claimed.

@@ -11,16 +11,33 @@ test('profile, contacts, settings and history survive repository recreation', ()
     },
   };
   const first = createLocalStorage(backend);
-  first.write('profile', { id: 'test', name: 'Test User' });
+  first.write('profile', {
+    id: 'test',
+    name: 'Test User',
+    phoneNumber: '000',
+    createdAt: '2026-09-16T00:00:00Z',
+    updatedAt: '2026-09-16T00:00:00Z',
+  });
   first.write('contacts', [
-    { id: 'c', name: 'Test Contact', phone: '000', priority: 1 },
+    {
+      id: 'c',
+      name: 'Test Contact',
+      phoneNumber: '000',
+      priority: 1,
+      enabled: true,
+      createdAt: '2026-09-16T00:00:00Z',
+      updatedAt: '2026-09-16T00:00:00Z',
+    },
   ]);
-  first.write('settings', { countdownSeconds: 20, autoEscalate: false });
+  first.write('settings', { ...first.read('settings'), countdownSeconds: 20 });
   first.write('history', [
     {
       id: 'e',
-      createdAt: '2026-09-15T00:00:00Z',
-      source: 'sos_button',
+      timestamp: '2026-09-15T00:00:00Z',
+      triggerSource: 'sos_button',
+      smsMode: 'none',
+      contactCount: 0,
+      cancelledByUser: true,
       status: 'cancelled',
     },
   ]);
@@ -53,4 +70,21 @@ test('valid JSON with an invalid schema is rejected without deleting it', () => 
   });
   expect(() => storage.read('settings')).toThrow('preserved');
   expect(set).not.toHaveBeenCalled();
+});
+
+test('defaults keep all protection inactive and invalid writes never reach storage', () => {
+  const set = jest.fn();
+  const storage = createLocalStorage({ getString: () => undefined, set });
+  const settings = storage.read('settings');
+  expect(
+    Object.entries(settings)
+      .filter(([key]) => key.endsWith('Enabled'))
+      .every(([, value]) => value === false),
+  ).toBe(true);
+  expect(() =>
+    storage.write('settings', { ...settings, countdownSeconds: NaN }),
+  ).toThrow('Invalid');
+  expect(set).not.toHaveBeenCalled();
+  settings.protectionEnabled = true;
+  expect(storage.read('settings').protectionEnabled).toBe(false);
 });

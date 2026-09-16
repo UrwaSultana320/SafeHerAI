@@ -39,6 +39,7 @@ export function HomeScreen({
       ).map(route => (
         <Pressable
           key={route}
+          accessibilityLabel={route}
           accessibilityRole="button"
           style={styles.card}
           onPress={() => navigation.navigate(route)}
