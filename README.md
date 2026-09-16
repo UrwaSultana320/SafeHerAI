@@ -33,3 +33,34 @@ Emergency SMS, when implemented, will start with the standard Android SMS compos
 ## Status
 
 **Milestone 1:** project foundation (this repository state). Later milestones are not implemented until explicitly approved.
+
+## Development
+
+From `mobile/`:
+
+```sh
+npm ci
+npm run typecheck
+npm test -- --runInBand
+npm run lint
+npm run build:android
+```
+
+The Windows build script discovers Android Studio's bundled JDK and the default local Android SDK if environment variables are unset. It uses an ignored `.build-tmp/` directory to avoid Java socket failures with long/redirected temporary paths. `JAVA_HOME` and `ANDROID_HOME` overrides are supported. Other platforms should configure those variables normally.
+
+Build requirements follow the preserved template: React Native 0.87.1, Node >=22.11, Android SDK platform 37, build tools 37.0.0, NDK 27.1.12297006, and a compatible JDK. Minimum Android API is 26; target is 36. See the [React Native environment guide](https://reactnative.dev/docs/set-up-your-environment).
+
+The React Native Gradle plugin requires a Java 17 compilation toolchain; Gradle may download it automatically even when the launcher uses Android Studio's newer bundled Java.
+
+To run after a successful build, connect an Android device with USB debugging or start an emulator. Start Metro with `npm start`, then run `npm run android` in another terminal with Java and Android SDK configured. Debug builds require Metro. No release or physical-device verification is implied by a successful debug build.
+
+## Foundation modules
+
+- `mobile/src/app/`: typed native-stack navigation to all eight screens.
+- `mobile/src/components/`, `screens/`: shared page layout, dashboard, and clearly inactive previews.
+- `mobile/src/models/`: profile, contacts, settings, events, and trigger types.
+- `mobile/src/storage/`: MMKV repositories with versioned JSON keys and validation. Corrupt records are preserved and reported.
+- `mobile/src/services/`: six inactive service contracts returning `not_implemented`.
+- `mobile/src/permissions/`: just-in-time permission contract; no native requests yet.
+
+No profile/contact editor or emergency workflow is implemented. MMKV is app-local, not configured with application-level encryption; do not treat this prototype as a secure vault. Android backup is disabled.

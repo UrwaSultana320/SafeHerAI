@@ -1,4 +1,5 @@
 # OS
+.build-tmp/
 .DS_Store
 Thumbs.db
 Desktop.ini
@@ -16,6 +17,13 @@ Desktop.ini
 .env.*
 !.env.example
 *.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.apk
+*.aab
+**/build/
 google-services.json
 GoogleService-Info.plist
 
