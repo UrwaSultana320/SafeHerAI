@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
   muted: { fontSize: 14, lineHeight: 20, color: '#706C80' },
   error: { fontSize: 15, color: '#9C1739' },
   success: { fontSize: 15, color: '#176C4A' },
+  alertCard: { borderColor: '#B51E46', borderWidth: 3 },
   sos: {
     backgroundColor: '#B51E46',
     borderRadius: 20,

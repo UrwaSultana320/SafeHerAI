@@ -16,9 +16,9 @@ The emergency core is implemented locally. Sensors, recording, and ML inference 
 
 Triggers (SOS, shake, AI) call one Emergency Engine, which requests location, builds a consistent message, opens the Android SMS composer, and persists an honest result. No screen sends an emergency independently.
 
-## AI path (future)
+## AI path
 
-Labeled IMU sessions are exported from the app, trained in `ai/`, and a compact exported model can later run on-device. Training uses safe simulated activities only.
+Sensors → 2-second windows → identical ordered features → rule baseline + local Logistic Regression → decision policy. Phone drops are suppressed; a thresholded possible fall opens a countdown whose cancel path saves feedback and whose immediate/timeout path invokes the central Emergency Engine. No remote inference is used.
 
 ## Sensor collection
 

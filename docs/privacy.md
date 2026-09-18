@@ -9,3 +9,4 @@ The app uses app-sandbox MMKV storage without application-level encryption. Andr
 - Audio recording requires an explicit start, shows a REC indicator, and saves to the private app directory only. The user explicitly stops it. Video is not implemented.
 - No hidden surveillance, background listening, or always-on camera.
 - This prototype is not a production safety guarantee.
+- ML inference is offline. False-alarm feedback (class, confidence, model version, time, and window reference) remains in local app storage and does not contain audio or location.

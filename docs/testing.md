@@ -17,6 +17,8 @@ Only safe simulated activities are permitted for future sensor testing. M1 colle
 
 Sensor collection hardware checks remain pending: verify both IMUs, approximate rate, timestamps, labels, sample count, CSV readability, and share behavior using safe movements only. Never perform a real fall.
 
+Automated AI tests compare TypeScript features against the Python golden vector and verify normalized operational probabilities. Device validation must safely exercise normal movement, phone placement/drop simulation onto a cushion, countdown cancellation, and manual escalation; synthetic model metrics do not predict real-world safety performance.
+
 ## Latest results — 2026-09-16
 
 - TypeScript and ESLint passed.

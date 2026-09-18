@@ -1722,11 +1722,11 @@ Codex updates this after each completed milestone.
 - [x] Milestone 3 - Original safety tools (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING; VIDEO DEFERRED)
 - [x] Milestone 4 - Sensor data collection (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [x] Milestone 5 - Machine learning pipeline
-- [ ] Milestone 6 - On-device AI emergency workflow
+- [x] Milestone 6 - On-device AI emergency workflow (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [ ] Milestone 7 - Testing, documentation and demo polish
 - [ ] Milestone 8 - Optional stretch work
 
-Current milestone: `M5 - complete with synthetic development validation (2026-09-18)`
+Current milestone: `M6 - implementation complete; device validation pending (2026-09-18)`
 
 Last successful Android build: `2026-09-16 - npm run build:android; assembleDebug successful`
 
@@ -1747,6 +1747,8 @@ M3 implementation (2026-09-18): shared accelerometer shake trigger with debounce
 M4 implementation (2026-09-18): the shared native SensorService streams accelerometer and gyroscope data near 50 Hz. Labelled sessions use a safe start countdown, duration/sample display, required CSV schema, local file storage, session list, and Android share sheet. Hardware sampling/export acceptance remains pending.
 
 M5 complete (2026-09-18): deterministic synthetic development data validates raw loading, session-aware windows, 28 ordered features, session-level holdout, rule baseline, scaled Logistic Regression, Random Forest, full fall-focused metrics, JSON export, and schema validation. Metrics are explicitly not research results.
+
+M6 implementation (2026-09-18): TypeScript feature extraction passes Python golden-vector parity, exported Logistic Regression runs offline, 2-second windows advance at 50% overlap, phone-drop is suppressed, and possible-fall policy provides cancel/immediate-help/timeout paths through EmergencyEngine. False-alarm feedback persists locally. Live hardware validation remains pending.
 
 ---
 

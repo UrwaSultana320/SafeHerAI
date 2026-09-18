@@ -1,6 +1,5 @@
 import { createLocalStorage, StringStore } from '../src/storage';
-import { emergencyEngine, smsService } from '../src/services';
-import { permissions } from '../src/permissions';
+import { buildEmergencyMessage, isValidPhoneNumber } from '../src/services';
 
 test('profile, contacts, settings and history survive repository recreation', () => {
   const data = new Map<string, string>();
@@ -53,14 +52,14 @@ test('corrupt data is reported and preserved', () => {
   expect(() => storage.read('profile')).toThrow('preserved');
   expect(set).not.toHaveBeenCalled();
 });
-test('emergency, SMS and permissions remain inactive', async () => {
-  expect((await emergencyEngine.start('sos_button')).status).toBe(
-    'not_implemented',
+test('emergency message includes identity, trigger, time and location', () => {
+  const message = buildEmergencyMessage(
+    { id: 'u', name: 'Ayesha', phoneNumber: '', createdAt: '2026-01-01T00:00:00Z', updatedAt: '2026-01-01T00:00:00Z' },
+    'sos_button', '2026-01-01T00:00:00Z', { latitude: 31.52, longitude: 74.35 },
   );
-  expect((await smsService.openComposer()).status).toBe('not_implemented');
-  expect(await permissions.requestForFeature('location')).toBe(
-    'not_implemented',
-  );
+  expect(message).toContain('Ayesha'); expect(message).toContain('sos button'); expect(message).toContain('maps.google.com');
+  expect(isValidPhoneNumber('+92 300 1234567')).toBe(true);
+  expect(isValidPhoneNumber('12')).toBe(false);
 });
 test('valid JSON with an invalid schema is rejected without deleting it', () => {
   const set = jest.fn();

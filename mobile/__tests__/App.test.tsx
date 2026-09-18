@@ -16,7 +16,7 @@ test('renders correctly', async () => {
   });
 });
 
-test('Home SOS opens only the SOS preview route', async () => {
+test('Home SOS opens the emergency SOS route', async () => {
   const navigate = jest.fn();
   const props = {
     navigation: { navigate },
@@ -32,7 +32,7 @@ test('Home SOS opens only the SOS preview route', async () => {
   });
   const button = tree.root.findAll(
     node =>
-      node.props.accessibilityLabel === 'SOS preview. Does not send alerts',
+      node.props.accessibilityLabel === 'Open emergency SOS',
   )[0];
   await ReactTestRenderer.act(() => button.props.onPress());
   expect(navigate).toHaveBeenCalledWith('SOS');
@@ -49,6 +49,7 @@ test('Home exposes every foundation destination', async () => {
     'Emergency Contacts',
     'Safety Tools',
     'AI Detection',
+    'Sensor Collection',
     'Emergency History',
     'Profile',
     'Settings',
@@ -58,7 +59,7 @@ test('Home exposes every foundation destination', async () => {
       node =>
         typeof node.props.onPress === 'function' &&
         node.props.accessibilityLabel ===
-          (route === 'SOS' ? 'SOS preview. Does not send alerts' : route),
+          (route === 'SOS' ? 'Open emergency SOS' : route),
     )[0];
     expect(button).toBeDefined();
     await ReactTestRenderer.act(() => button.props.onPress());

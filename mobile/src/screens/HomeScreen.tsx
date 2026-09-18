@@ -12,26 +12,26 @@ export function HomeScreen({
         Intelligent Women Safety &amp; Emergency Response System
       </Text>
       <View style={styles.card}>
-        <Text style={styles.label}>Protection inactive</Text>
+        <Text style={styles.label}>Emergency tools ready</Text>
         <Text style={styles.text}>
-          Foundation preview. Monitoring and emergency alerts are not available
-          yet.
+          SOS prepares a location-aware message in your SMS app. Sending remains under your control.
         </Text>
       </View>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="SOS preview. Does not send alerts"
+        accessibilityLabel="Open emergency SOS"
         style={styles.sos}
         onPress={() => navigation.navigate('SOS')}
       >
         <Text style={styles.sosText}>SOS</Text>
-        <Text style={styles.sosCaption}>Preview only</Text>
+        <Text style={styles.sosCaption}>Open emergency control</Text>
       </Pressable>
       {(
         [
           'Emergency Contacts',
           'Safety Tools',
           'AI Detection',
+          'Sensor Collection',
           'Emergency History',
           'Profile',
           'Settings',

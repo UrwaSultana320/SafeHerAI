@@ -25,7 +25,7 @@ export function ToolsScreen() {
   }, [shakeOn]);
   useEffect(() => {
     if (countdown === undefined) return;
-    if (countdown <= 0) { setCountdown(undefined); void emergencyEngine.start('shake').then(result => setMessage(result.event.status.replaceAll('_', ' '))); return; }
+    if (countdown <= 0) { setCountdown(undefined); emergencyEngine.start('shake').then(result => setMessage(result.event.status.replaceAll('_', ' '))).catch(error => setMessage(error instanceof Error ? error.message : String(error))); return; }
     const handle = setTimeout(() => setCountdown(value => value === undefined ? undefined : value - 1), 1000); return () => clearTimeout(handle);
   }, [countdown]);
   useEffect(() => () => { deviceServices.stopAlarm(); if (timer.current) clearTimeout(timer.current); }, []);

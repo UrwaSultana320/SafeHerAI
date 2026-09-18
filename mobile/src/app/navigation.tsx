@@ -3,20 +3,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from '../screens/HomeScreen';
 import {
-  ContactsScreen,
-  SosScreen,
-  ToolsScreen,
-  AiScreen,
-  HistoryScreen,
-  ProfileScreen,
   SettingsScreen,
 } from '../screens/FoundationScreens';
+import { ContactsScreen, SosScreen, HistoryScreen, ProfileScreen } from '../screens/EmergencyScreens';
+import { ToolsScreen } from '../screens/SafetyToolsScreen';
+import { SensorCollectionScreen } from '../screens/SensorCollectionScreen';
+import { AiDetectionScreen } from '../screens/AiDetectionScreen';
 export type RootStackParamList = {
   Home: undefined;
   'Emergency Contacts': undefined;
   SOS: undefined;
   'Safety Tools': undefined;
   'AI Detection': undefined;
+  'Sensor Collection': undefined;
   'Emergency History': undefined;
   Profile: undefined;
   Settings: undefined;
@@ -35,7 +34,8 @@ export function Navigation() {
         <Stack.Screen name="Emergency Contacts" component={ContactsScreen} />
         <Stack.Screen name="SOS" component={SosScreen} />
         <Stack.Screen name="Safety Tools" component={ToolsScreen} />
-        <Stack.Screen name="AI Detection" component={AiScreen} />
+        <Stack.Screen name="AI Detection" component={AiDetectionScreen} />
+        <Stack.Screen name="Sensor Collection" component={SensorCollectionScreen} />
         <Stack.Screen name="Emergency History" component={HistoryScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
