@@ -7,3 +7,6 @@ Documented constraints for this prototype (to be expanded as features are implem
 - **Inbound SMS / inbox read** is out of scope (Play policy and privacy).
 - **Location** is foreground-only. Permission denial, disabled providers, stale fixes, and timeouts are reported without crashing. Real accuracy requires a physical phone.
 - **Fake call** (later) is a local decoy UI, not a real incoming cellular call.
+- **Alarm / DND**: Android Do Not Disturb, muted alarm streams, and OEM policies can reduce panic-alarm audibility. Vibration also depends on device settings.
+- **Sensors**: shake monitoring is foreground-only in this prototype; OEM background limits are not bypassed.
+- **Recording**: audio is explicit and local. Video recording is deferred because no compatible camera stack is configured; hidden recording is never used.
