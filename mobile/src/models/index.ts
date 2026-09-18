@@ -79,4 +79,7 @@ export interface SensorSession {
   sample_count: number;
   device_model_optional?: string;
   notes_optional?: string;
+  csv_path_optional?: string;
 }
+export interface RecordingReference { id: string; path: string; startedAt: string; endedAt: string; kind: 'audio' }
+export interface FalseAlarmFeedback { id:string;timestamp:string;prediction:string;confidence:number;modelVersion:string;windowReference:string }

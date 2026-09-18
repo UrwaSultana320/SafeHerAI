@@ -52,6 +52,15 @@ export function isStoredValue(key: string, value: unknown): boolean {
         optionalString(item.relationshipOptional),
     );
   }
+  if (key === 'recordings') {
+    return value.every(item => record(item) && typeof item.id === 'string' && typeof item.path === 'string' && item.kind === 'audio' && date(item.startedAt) && date(item.endedAt));
+  }
+  if (key === 'sensorSessions') {
+    return value.every(item => record(item) && typeof item.session_id === 'string' && typeof item.label === 'string' && date(item.started_at) && (item.ended_at === undefined || date(item.ended_at)) && finite(item.sample_rate_target) && finite(item.sample_count) && optionalString(item.csv_path_optional) && optionalString(item.device_model_optional) && optionalString(item.notes_optional));
+  }
+  if (key === 'falseAlarmFeedback') {
+    return value.every(item => record(item) && typeof item.id === 'string' && date(item.timestamp) && typeof item.prediction === 'string' && finite(item.confidence) && item.confidence >= 0 && item.confidence <= 1 && typeof item.modelVersion === 'string' && typeof item.windowReference === 'string');
+  }
   return (
     key === 'history' &&
     value.every(

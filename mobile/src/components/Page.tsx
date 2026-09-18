@@ -17,9 +17,7 @@ export function Page({
         {title}
       </Text>
       {children}
-      <Text style={styles.footer}>
-        Portfolio prototype · Emergency protection is not active.
-      </Text>
+      <Text style={styles.footer}>SafeHer AI portfolio prototype · Not a certified public-safety service.</Text>
     </ScrollView>
   );
 }
@@ -37,6 +35,14 @@ export const styles = StyleSheet.create({
     minHeight: 56,
   },
   label: { fontSize: 17, color: '#392D62', fontWeight: '600' },
+  input: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#C9C5D8', borderRadius: 10, paddingHorizontal: 14, paddingVertical: 12, fontSize: 16, color: '#25223B' },
+  button: { backgroundColor: '#392D62', borderRadius: 12, padding: 15, alignItems: 'center', minHeight: 48 },
+  buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
+  dangerButton: { backgroundColor: '#B51E46' },
+  row: { flexDirection: 'row', gap: 10, alignItems: 'center', flexWrap: 'wrap' },
+  muted: { fontSize: 14, lineHeight: 20, color: '#706C80' },
+  error: { fontSize: 15, color: '#9C1739' },
+  success: { fontSize: 15, color: '#176C4A' },
   sos: {
     backgroundColor: '#B51E46',
     borderRadius: 20,

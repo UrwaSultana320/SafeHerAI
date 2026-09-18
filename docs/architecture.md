@@ -10,11 +10,11 @@ SafeHer AI uses a modular React Native Android app plus an offline Python ML wor
 - Services (Emergency Engine, location, SMS, sensors, recording, AI inference)
 - Typed domain models
 
-Milestone 1 implements structure and placeholders only. GPS, SMS, sensors, ML inference, Firebase, background services, and camera are out of scope until later approved milestones.
+The emergency core is implemented locally. Sensors, recording, and ML inference are added in later milestones; Firebase is not used.
 
-## Emergency path (future)
+## Emergency path
 
-Triggers (SOS, shake, AI) will call a single Emergency Engine. The first SMS implementation will use the Android SMS composer/intent, not silent `SmsManager`.
+Triggers (SOS, shake, AI) call one Emergency Engine, which requests location, builds a consistent message, opens the Android SMS composer, and persists an honest result. No screen sends an emergency independently.
 
 ## AI path (future)
 
@@ -24,7 +24,7 @@ Labeled IMU sessions are exported from the app, trained in `ai/`, and a compact 
 
 React Navigation native-stack connects eight screens. MMKV stores `v1.profile`, `v1.contacts`, `v1.settings`, and `v1.history`; schemas are checked at the storage boundary. Defaults contain no personal contacts, and automatic escalation defaults off. Native storage is mocked in Jest; tests cover repository behavior rather than claiming device persistence verification.
 
-Service contracts live together in `mobile/src/services/index.ts` until real adapters justify separate folders. Every adapter returns `not_implemented`. The SOS button only navigates to a preview. Permission requests are inactive and no dangerous Android permissions are declared. No global state package is needed for these placeholders.
+Service contracts and the emergency orchestration live in `mobile/src/services/index.ts`. A small Android bridge obtains last-known or fresh foreground location with a timeout. Permissions are requested only when SOS needs location. No global state package is required.
 
 Navigation uses the Android fragment restoration setup from the [React Navigation guide](https://reactnavigation.org/docs/getting-started/).
 

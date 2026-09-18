@@ -5,12 +5,18 @@ import type {
   EmergencyContact,
   EmergencyEvent,
   UserProfile,
+  RecordingReference,
+  SensorSession,
+  FalseAlarmFeedback,
 } from '../models';
 interface Schema {
   profile: UserProfile | null;
   contacts: EmergencyContact[];
   settings: AppSettings;
   history: EmergencyEvent[];
+  recordings: RecordingReference[];
+  sensorSessions: SensorSession[];
+  falseAlarmFeedback: FalseAlarmFeedback[];
 }
 export interface StringStore {
   getString(key: string): string | undefined;
@@ -20,6 +26,9 @@ const defaults: Schema = {
   profile: null,
   contacts: [],
   history: [],
+  recordings: [],
+  sensorSessions: [],
+  falseAlarmFeedback: [],
   settings: {
     countdownSeconds: 15,
     autoEscalateEnabled: false,

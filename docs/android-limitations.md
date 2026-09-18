@@ -3,7 +3,7 @@
 Documented constraints for this prototype (to be expanded as features are implemented):
 
 - **Repeated power-button SOS** is not reliable for third-party apps. Android system Emergency SOS owns that gesture. This project will not fake it.
-- **Silent SMS (`SmsManager`)** is deferred. Milestone 2+ will prioritize the standard SMS composer/intent. Verify platform and distribution-policy restrictions when implementing it; do not assume that a restricted-settings toggle universally enables SMS.
+- **SMS** uses the standard composer. The user must review and tap Send; composer availability and multi-recipient behavior vary by installed SMS app. Silent `SmsManager` sending is not used.
 - **Inbound SMS / inbox read** is out of scope (Play policy and privacy).
-- **Background location, foreground services, and always-on sensors** are not in Milestone 1. The app must work in the foreground first.
+- **Location** is foreground-only. Permission denial, disabled providers, stale fixes, and timeouts are reported without crashing. Real accuracy requires a physical phone.
 - **Fake call** (later) is a local decoy UI, not a real incoming cellular call.

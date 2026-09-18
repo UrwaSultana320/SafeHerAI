@@ -1,8 +1,8 @@
-# Foundation testing
+# Testing
 
 Run from `mobile/`: `npm run typecheck`, `npm test -- --runInBand`, `npm run lint`, and `npm run build:android`.
 
-Jest checks navigation, storage round trips, invalid/corrupt records, conservative defaults, and inactive services. Native MMKV is mocked: this is not proof of device persistence.
+Jest checks navigation, storage round trips, validation, conservative defaults, phone validation, and emergency message generation. Native MMKV and Android services are not proof of device persistence or GPS/SMS behavior.
 
 ## Android acceptance (requires a device or configured emulator)
 

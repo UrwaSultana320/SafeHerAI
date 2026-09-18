@@ -1718,7 +1718,7 @@ Codex updates this after each completed milestone.
 
 - [ ] Milestone 0 - Environment and baseline
 - [ ] Milestone 1 - Application foundation (implementation ready; device acceptance pending)
-- [ ] Milestone 2 - Emergency core
+- [x] Milestone 2 - Emergency core (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [ ] Milestone 3 - Original safety tools
 - [ ] Milestone 4 - Sensor data collection
 - [ ] Milestone 5 - Machine learning pipeline
@@ -1726,7 +1726,7 @@ Codex updates this after each completed milestone.
 - [ ] Milestone 7 - Testing, documentation and demo polish
 - [ ] Milestone 8 - Optional stretch work
 
-Current milestone: `M1 - implementation ready; device acceptance blocked (2026-09-16)`
+Current milestone: `M2 - implementation complete; device validation pending (2026-09-18)`
 
 Last successful Android build: `2026-09-16 - npm run build:android; assembleDebug successful`
 
@@ -1736,9 +1736,11 @@ Last successful ML pipeline run: `NOT SET`
 
 Latest model version: `NOT SET`
 
-Known blockers: `M1 runtime acceptance: SafeHer_M1_API29 exists with an installed API 29 x86_64 image, but emulator-5554 remains offline after over six hours running with acceleration disabled and after an ADB reconnect. emulator -accel-check reports virtualization extensions unavailable. No physical device is connected. App launch, native navigation/rendering, native MMKV persistence, and critical runtime-log checks remain unverified. Connect an authorized Android device (API 26+) or enable host/nested virtualization and boot a working emulator before proceeding through the sequential milestone acceptance gate.`
+Known blockers: `Physical-device validation is pending by instruction. Location fixes, SMS composer integration, and MMKV persistence are implemented but not hardware-verified.`
 
 M1 validation (2026-09-16): 8 Jest tests passed in 2 suites; ESLint and Android JS bundle passed. Storage smoke tests use a mocked native backend. All seven Home destinations and Back navigation pass in Jest. Domain contracts, storage validation/defaults, accessibility labels, and testing/demo docs aligned; existing foundation preserved. No dependencies added. See `docs/testing.md`. M1 remains unchecked until device acceptance; M2 not started.
+
+M2 implementation (2026-09-18): contact CRUD/priority/enablement, deliberate SOS, central EmergencyEngine, foreground Android location bridge, message generation, SMS composer, and persisted event history are complete. Static/build validation recorded in Git commit; physical GPS/SMS/device acceptance remains pending.
 
 ---
 
