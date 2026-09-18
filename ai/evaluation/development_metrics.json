@@ -1,0 +1,159 @@
+{
+  "warning": "SYNTHETIC DEVELOPMENT DATA \u2014 NOT RESEARCH RESULTS",
+  "split": "session-level GroupShuffleSplit",
+  "seed": 42,
+  "train_sessions": 30,
+  "test_sessions": 10,
+  "rule_baseline": {
+    "accuracy": 0.8,
+    "macro_precision": 0.7999999999999999,
+    "macro_recall": 0.6666666666666666,
+    "macro_f1": 0.6729323308270677,
+    "possible_fall_fpr": 0.16666666666666666,
+    "possible_fall_fnr": 0.3333333333333333,
+    "per_class": {
+      "normal_activity": {
+        "precision": 0.9,
+        "recall": 1.0,
+        "f1": 0.9473684210526315,
+        "support": 18
+      },
+      "phone_drop": {
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "support": 6
+      },
+      "possible_fall": {
+        "precision": 0.5,
+        "recall": 0.6666666666666666,
+        "f1": 0.5714285714285714,
+        "support": 6
+      }
+    },
+    "confusion_matrix": [
+      [
+        18,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        4
+      ],
+      [
+        2,
+        0,
+        4
+      ]
+    ],
+    "class_order": [
+      "normal_activity",
+      "phone_drop",
+      "possible_fall"
+    ]
+  },
+  "logistic_regression": {
+    "accuracy": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0,
+    "macro_f1": 1.0,
+    "possible_fall_fpr": 0.0,
+    "possible_fall_fnr": 0.0,
+    "per_class": {
+      "normal_activity": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 18
+      },
+      "phone_drop": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 6
+      },
+      "possible_fall": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 6
+      }
+    },
+    "confusion_matrix": [
+      [
+        18,
+        0,
+        0
+      ],
+      [
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        6
+      ]
+    ],
+    "class_order": [
+      "normal_activity",
+      "phone_drop",
+      "possible_fall"
+    ]
+  },
+  "random_forest": {
+    "accuracy": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0,
+    "macro_f1": 1.0,
+    "possible_fall_fpr": 0.0,
+    "possible_fall_fnr": 0.0,
+    "per_class": {
+      "normal_activity": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 18
+      },
+      "phone_drop": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 6
+      },
+      "possible_fall": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 6
+      }
+    },
+    "confusion_matrix": [
+      [
+        18,
+        0,
+        0
+      ],
+      [
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        6
+      ]
+    ],
+    "class_order": [
+      "normal_activity",
+      "phone_drop",
+      "possible_fall"
+    ]
+  },
+  "selected_model": "logistic_regression",
+  "selection_reason": "Portable, interpretable on-device model; selection considers fall recall/FNR and false-positive rate, not accuracy alone."
+}

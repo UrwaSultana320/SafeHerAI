@@ -1,2 +1,3 @@
-# Python dependencies for later milestones (do not install for Milestone 1).
-# Expected later: numpy, pandas, scikit-learn, matplotlib
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1

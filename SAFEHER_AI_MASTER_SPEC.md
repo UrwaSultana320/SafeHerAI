@@ -1721,20 +1721,20 @@ Codex updates this after each completed milestone.
 - [x] Milestone 2 - Emergency core (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [x] Milestone 3 - Original safety tools (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING; VIDEO DEFERRED)
 - [x] Milestone 4 - Sensor data collection (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
-- [ ] Milestone 5 - Machine learning pipeline
+- [x] Milestone 5 - Machine learning pipeline
 - [ ] Milestone 6 - On-device AI emergency workflow
 - [ ] Milestone 7 - Testing, documentation and demo polish
 - [ ] Milestone 8 - Optional stretch work
 
-Current milestone: `M4 - implementation complete; device validation pending (2026-09-18)`
+Current milestone: `M5 - complete with synthetic development validation (2026-09-18)`
 
 Last successful Android build: `2026-09-16 - npm run build:android; assembleDebug successful`
 
 Last successful TypeScript check: `2026-09-16 - npm run typecheck`
 
-Last successful ML pipeline run: `NOT SET`
+Last successful ML pipeline run: `2026-09-18 - 40 sessions, session-level split, rule/LR/RF evaluated; export validated`
 
-Latest model version: `NOT SET`
+Latest model version: `safeher-lr-1`
 
 Known blockers: `Physical-device validation is pending by instruction. Location fixes, SMS composer integration, and MMKV persistence are implemented but not hardware-verified.`
 
@@ -1745,6 +1745,8 @@ M2 implementation (2026-09-18): contact CRUD/priority/enablement, deliberate SOS
 M3 implementation (2026-09-18): shared accelerometer shake trigger with debounce/countdown, panic alarm/vibration, fake-call simulation, and explicit local audio recording are complete. Physical audio/sensor validation remains pending. Video is deferred because the current dependency-free native architecture has no camera recording stack; adding one during this run would risk build stability.
 
 M4 implementation (2026-09-18): the shared native SensorService streams accelerometer and gyroscope data near 50 Hz. Labelled sessions use a safe start countdown, duration/sample display, required CSV schema, local file storage, session list, and Android share sheet. Hardware sampling/export acceptance remains pending.
+
+M5 complete (2026-09-18): deterministic synthetic development data validates raw loading, session-aware windows, 28 ordered features, session-level holdout, rule baseline, scaled Logistic Regression, Random Forest, full fall-focused metrics, JSON export, and schema validation. Metrics are explicitly not research results.
 
 ---
 
