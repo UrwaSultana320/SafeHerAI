@@ -1,0 +1,2 @@
+import {samplesToCsv} from '../src/services/sensors';
+test('sensor CSV preserves required schema, label, and session',()=>{const csv=samplesToCsv([{timestamp:20,acc_x:1,acc_y:2,acc_z:3,gyro_x:4,gyro_y:5,gyro_z:6,activity_label:'walking',session_id:'session-a'}]);expect(csv.split('\n')[0]).toBe('timestamp,acc_x,acc_y,acc_z,gyro_x,gyro_y,gyro_z,activity_label,session_id');expect(csv.split('\n')[1]).toContain('walking,session-a');});

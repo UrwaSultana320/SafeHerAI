@@ -71,15 +71,15 @@ test('valid JSON with an invalid schema is rejected without deleting it', () => 
   expect(set).not.toHaveBeenCalled();
 });
 
-test('defaults keep all protection inactive and invalid writes never reach storage', () => {
+test('defaults keep automatic protection inactive and invalid writes never reach storage', () => {
   const set = jest.fn();
   const storage = createLocalStorage({ getString: () => undefined, set });
   const settings = storage.read('settings');
-  expect(
-    Object.entries(settings)
-      .filter(([key]) => key.endsWith('Enabled'))
-      .every(([, value]) => value === false),
-  ).toBe(true);
+  expect(settings.protectionEnabled).toBe(false);
+  expect(settings.shakeEnabled).toBe(false);
+  expect(settings.aiDetectionEnabled).toBe(false);
+  expect(settings.autoEscalateEnabled).toBe(false);
+  expect(settings.locationInEmergencyEnabled).toBe(true);
   expect(() =>
     storage.write('settings', { ...settings, countdownSeconds: NaN }),
   ).toThrow('Invalid');

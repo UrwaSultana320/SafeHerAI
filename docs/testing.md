@@ -1,31 +1,53 @@
 # Testing
 
-Run from `mobile/`: `npm run typecheck`, `npm test -- --runInBand`, `npm run lint`, and `npm run build:android`.
+## Automated commands
 
-Jest checks navigation, storage round trips, validation, conservative defaults, phone validation, and emergency message generation. Native MMKV and Android services are not proof of device persistence or GPS/SMS behavior.
+From `mobile/`:
 
-## Android acceptance (requires a device or configured emulator)
+```sh
+npm run typecheck
+npm run lint
+npm test -- --runInBand
+npm run build:android
+```
 
-1. Start Metro with `npm start`, then install/run with `npm run android` using the configured Java and Android SDK.
-2. Verify Home launches without a red error screen, and protection is inactive.
-3. Open each of the seven destinations and return using Android Back. Check scrolling and text readability.
-4. Confirm SOS only shows a preview, with no permissions, location lookup, or messaging.
-5. In the React Native debugger, use a temporary development-only harness importing `localStorage` to write synthetic profile/contact/settings/history values and read them back. Force-stop and reopen, verify they persist, then restore the previous values. Never use real personal data.
-6. Inspect Metro and `adb logcat` for critical JS/native errors. Record device/API, results, and failures here.
+Jest covers navigation, validated persistence, emergency message/phone validation, Python/TypeScript golden-vector parity, and normalized local-model probabilities. Native services and MMKV are mocked or absent in Jest, so these checks do not prove device behavior.
 
-Only safe simulated activities are permitted for future sensor testing. M1 collects no sensors and performs no emergency actions.
+From `ai/`:
 
-Sensor collection hardware checks remain pending: verify both IMUs, approximate rate, timestamps, labels, sample count, CSV readability, and share behavior using safe movements only. Never perform a real fall.
+```sh
+python scripts/generate_development_data.py
+python scripts/train.py
+python scripts/validate_export.py
+```
 
-Automated AI tests compare TypeScript features against the Python golden vector and verify normalized operational probabilities. Device validation must safely exercise normal movement, phone placement/drop simulation onto a cushion, countdown cancellation, and manual escalation; synthetic model metrics do not predict real-world safety performance.
+The training run validates required numeric columns, session labels, finite values, 2-second windows with 50% overlap, disjoint session groups, three model comparisons, fall FPR/FNR, JSON export, and ordered dimensions. Output is synthetic development validation, not research evidence.
 
-## Latest results — 2026-09-16
+## Pending device acceptance
 
-- TypeScript and ESLint passed.
-- Jest: 8 tests passed in 2 suites, including all Home routes and Back navigation.
-- Android debug build rerun: successful (226 tasks; 3m 25s). TypeScript, ESLint, and all 8 Jest tests also passed again during this runtime-acceptance attempt.
-- Android production-mode JavaScript bundling: passed. Upstream React Native internal-export fallback warning remains.
-- Device acceptance rechecked at 19:00 PKT: `SafeHer_M1_API29` and its API 29 x86_64 system image are installed. The emulator started at 12:43 with `-accel off -gpu software -no-window -no-snapshot` but remains offline after over six hours and an ADB offline reconnect. `emulator -accel-check` reports virtualization extensions unavailable. No physical device is connected. App launch, native rendering/navigation, native MMKV persistence, and runtime console/logcat checks have not been verified.
-- Required manual action: connect and authorize an Android device (API 26+) over ADB, or enable host/nested virtualization and provide a booted emulator. This blocks foundation runtime acceptance, not merely later hardware sensor checks; the requested sequential M1–M7 execution therefore stops at M1.
+On an authorized Android device, use fictional data and safe movements only:
 
-The Progress Ledger intentionally leaves M1 unchecked pending these device checks. No Milestone 2 functionality is included.
+1. Verify contact CRUD persists after force-stop/restart.
+2. Test location granted, denied, providers disabled, timeout, and no-fix cases.
+3. Confirm the installed SMS app receives correct recipients/message; do not claim delivery from composer launch.
+4. Confirm missing contacts, malformed numbers, and missing SMS app show honest failures and history entries.
+5. Check shake debounce/cancel, alarm start/stop under volume/DND states, fake-call states, microphone denial, visible recording, and private audio save.
+6. Check both IMUs, approximate sampling rate, timestamps, session IDs/labels, count/duration, readable CSV, and share sheet.
+7. Check AI enable/disable, normal and phone-drop suppression, countdown cancel, immediate help, timeout, feedback persistence, cooldown, and missing/corrupt model handling.
+8. Inspect Metro and Logcat for critical errors and verify accessible labels/touch targets.
+
+Never perform a dangerous real fall. Use a development injection harness, golden samples, ordinary motion, or a phone drop onto a padded surface.
+
+## Latest automated result
+
+Final audit on 2026-09-18:
+
+- TypeScript: passed.
+- ESLint: passed.
+- Jest: 11 tests passed in 4 suites.
+- Android debug build: passed (226 tasks; final rerun 3m 58s).
+- Android production JavaScript bundle: passed; React Native emitted its upstream internal-export fallback warning.
+- Python syntax/import and 28-feature-order checks: passed.
+- Synthetic development pipeline: regenerated 40 sessions, used a disjoint session-level split, evaluated rule/LR/RF metrics, and validated the Logistic Regression JSON export.
+
+**DEVICE VALIDATION PENDING.** No GPS, SMS, accelerometer, gyroscope, recording, persistence, or runtime behavior was physically verified in this audit.

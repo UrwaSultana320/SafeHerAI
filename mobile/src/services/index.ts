@@ -88,7 +88,9 @@ export const emergencyEngine: EmergencyEngine = {
       .read('contacts')
       .filter(item => item.enabled && isValidPhoneNumber(item.phoneNumber))
       .sort((a, b) => a.priority - b.priority);
-    const location = await locationService.getCurrentLocation();
+    const location = localStorage.read('settings').locationInEmergencyEnabled
+      ? await locationService.getCurrentLocation()
+      : { status: 'unavailable' as const, message: 'Location disabled in settings.' };
     const coordinates = location.status === 'available' ? location.coordinates : undefined;
     const message = buildEmergencyMessage(localStorage.read('profile'), source, timestamp, coordinates);
     const event: EmergencyEvent = {

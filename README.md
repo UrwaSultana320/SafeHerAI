@@ -1,68 +1,102 @@
 # SafeHer AI
 
-Intelligent Women Safety & Emergency Response System — Android-first prototype.
+SafeHer AI is an Android-first women-safety and emergency-response portfolio prototype. It rebuilds an undergraduate Final Year Project—SOS, trusted contacts, panic alarm, fake call, and recording—and adds a local sensor-based fall-detection research pipeline.
 
-## Purpose
+> This is not a certified medical, public-safety, or production emergency product. It does not replace official emergency services. False alarms and missed detections are expected; only safe simulated movement testing is permitted.
 
-SafeHer AI is a reconstruction and AI enhancement of an undergraduate Final Year Project: a women-safety mobile application with SOS tools, emergency contacts, and offline-capable emergency messaging.
+## Features
 
-This rebuild keeps the original safety-tool intent and adds a research-oriented motion-classification pipeline (rule-based baseline compared with a trained classifier) so possible falls can be distinguished from everyday movement and phone drops, with a confirmation countdown before any escalation.
+- Local emergency-contact CRUD with priority, validation, and enable/disable controls
+- Deliberate press-and-hold SOS through one central `EmergencyEngine`
+- Foreground last-known/fresh GPS lookup with timeout and permission handling
+- User-reviewed Android SMS composer with identity, trigger, time, coordinates, and Maps URL
+- Honest local emergency history, including failures
+- Debounced shake trigger with cancellation countdown
+- Panic alarm/vibration, local fake-call simulation, and explicit local audio recording
+- Labelled accelerometer/gyroscope collection near 50 Hz, private CSV save, and explicit export/share
+- Python pipeline comparing a rule baseline, scaled Logistic Regression, and Random Forest
+- Offline TypeScript Logistic Regression with Python/TypeScript golden-vector parity
+- Phone-drop suppression, possible-fall countdown, immediate help, timeout escalation, and local false-alarm feedback
 
-## Prototype disclaimer
+Video recording is the only deferred original feature: the current project has no compatible camera recording stack, and hidden recording is intentionally prohibited.
 
-This is a **graduate-school / portfolio prototype**, not a certified medical, public-safety, or production emergency product.
+## Architecture
 
-- It does not replace official emergency services (for example 15 / 112 / 911).
-- Fall detection will use **controlled, safe simulated activities only** — not dangerous physical fall testing.
-- Sensor models trained on acted data will not match real-world trauma. False alarms and missed events are expected.
-- Silent SMS, background monitoring, and always-on sensing are **not** part of the initial milestones.
+```text
+SOS / shake / AI fall
+        ↓
+EmergencyEngine → foreground location → message → SMS composer → event history
 
-## High-level architecture
-
+accelerometer + gyroscope → 2 s windows → ordered features
+        → rule baseline + local Logistic Regression → decision policy
+        → phone-drop suppression OR fall countdown → EmergencyEngine
 ```
-SafeHerAI/
-  mobile/     React Native (TypeScript) Android app
-  ai/         Offline training, evaluation, exported model artifacts
-  docs/       Architecture, Android limitations, privacy, ML notes
+
+The system is local-first and has no Firebase, cloud backend, analytics, or remote inference. React Native screens use a small Kotlin bridge for location, sensors, alarm, recording, and private-file sharing. MMKV holds structured local state.
+
+## Technology
+
+- React Native 0.87.1, React 19, TypeScript, React Navigation, MMKV
+- Android/Kotlin native bridge; minimum API 26, target API 36
+- Python 3, NumPy, pandas, scikit-learn
+- Jest, ESLint, TypeScript, Gradle
+
+## Repository
+
+```text
+mobile/src/ai/          feature extraction and local inference
+mobile/src/screens/     emergency, safety, sensor, and AI UI
+mobile/src/services/    EmergencyEngine and native service adapters
+mobile/src/storage/     validated local persistence
+mobile/android/         Kotlin bridge and Android configuration
+ai/scripts/             generation, validation, features, training, export
+ai/models/              exported Logistic Regression and golden vector
+ai/evaluation/          synthetic development evaluation
+docs/                   architecture, privacy, testing, demo, limitations
 ```
 
-The mobile app is organized so UI never talks to SMS or GPS directly. A future **Emergency Engine** will be the only path that can escalate. Milestone 1 ships navigation, local storage, typed models, and service **placeholders** only.
+## Setup and validation
 
-Emergency SMS, when implemented, will start with the standard Android SMS composer/intent. Silent `SmsManager` sending is deferred. Foreground-only operation comes first; no background location or foreground services in Milestone 1.
-
-## Status
-
-**Milestone 1:** project foundation (this repository state). Later milestones are not implemented until explicitly approved.
-
-## Development
-
-From `mobile/`:
+Requirements: Node 22.11+, npm, Android SDK platform 37/build tools 37, NDK 27.1.12297006, and a compatible JDK. On Windows, the build script discovers Android Studio's bundled JDK and default SDK.
 
 ```sh
+cd mobile
 npm ci
 npm run typecheck
-npm test -- --runInBand
 npm run lint
+npm test -- --runInBand
 npm run build:android
 ```
 
-The Windows build script discovers Android Studio's bundled JDK and the default local Android SDK if environment variables are unset. It uses an ignored `.build-tmp/` directory to avoid Java socket failures with long/redirected temporary paths. `JAVA_HOME` and `ANDROID_HOME` overrides are supported. Other platforms should configure those variables normally.
+To run, connect an authorized Android device or boot an emulator, start Metro with `npm start`, then use `npm run android`. A successful debug build does not prove GPS, SMS, microphone, alarm, sensor, or runtime behavior.
 
-Build requirements follow the preserved template: React Native 0.87.1, Node >=22.11, Android SDK platform 37, build tools 37.0.0, NDK 27.1.12297006, and a compatible JDK. Minimum Android API is 26; target is 36. See the [React Native environment guide](https://reactnative.dev/docs/set-up-your-environment).
+ML validation from `ai/`:
 
-The React Native Gradle plugin requires a Java 17 compilation toolchain; Gradle may download it automatically even when the launcher uses Android Studio's newer bundled Java.
+```sh
+python -m pip install -r requirements.txt
+python scripts/generate_development_data.py
+python scripts/train.py
+python scripts/validate_export.py
+```
 
-To run after a successful build, connect an Android device with USB debugging or start an emulator. Start Metro with `npm start`, then run `npm run android` in another terminal with Java and Android SDK configured. Debug builds require Metro. No release or physical-device verification is implied by a successful debug build.
+The generated data is deterministic synthetic development data. Its metrics prove the code path only and must not be cited as real-world research performance. Windows are 2 seconds at 50 Hz with 50% overlap and session-level holdout; windows never cross sessions. Model selection considers possible-fall recall, false-negative rate, false-positive rate, portability, and interpretability—not accuracy alone.
 
-## Foundation modules
+## Emergency workflow
 
-- `mobile/src/app/`: typed native-stack navigation to all eight screens.
-- `mobile/src/components/`, `screens/`: shared page layout, dashboard, and clearly inactive previews.
-- `mobile/src/models/`: profile, contacts, settings, events, and trigger types.
-- `mobile/src/storage/`: MMKV repositories with versioned JSON keys and validation. Corrupt records are preserved and reported.
-- `mobile/src/services/`: six inactive service contracts returning `not_implemented`.
-- `mobile/src/permissions/`: just-in-time permission contract; no native requests yet.
+Configure a profile and at least one enabled contact. SOS, shake, and AI use the same engine. If location is enabled, the engine asks just in time, uses a recent last-known fix or requests a fresh fix, generates the message, opens the installed SMS app, and records whether the composer opened or why it failed. The user must tap Send; silent SMS is not claimed.
 
-No profile/contact editor or emergency workflow is implemented. MMKV is app-local, not configured with application-level encryption; do not treat this prototype as a secure vault. Android backup is disabled.
+## Limitations and future work
 
-For current acceptance results and device checks, see [testing](docs/testing.md) and the master specification Progress Ledger. The demo script is in [docs/demo-script.md](docs/demo-script.md).
+- Physical-device and emulator runtime acceptance is pending.
+- Foreground-only sensors/location; OEM background and battery policies are not bypassed.
+- SMS composer behavior varies by installed app and does not prove delivery.
+- DND and volume settings can limit alarm sound.
+- The model uses synthetic development data and needs safe, consented, participant-separated real data.
+- Audio files, contact data, location history, and MMKV values are app-private but not application-level encrypted.
+- Future work includes real-device evaluation, accessibility testing, calibrated thresholds, participant-level research, and a compatible visible video-recording flow.
+
+## Demo and screenshots
+
+Use [docs/demo-script.md](docs/demo-script.md) for the safe demo flow. Add real screenshots only after device validation; place them under `docs/screenshots/` and caption device/API and build commit. Do not fabricate screenshots or emergency outcomes.
+
+See [architecture](docs/architecture.md), [ML methodology](docs/ml-methodology.md), [testing](docs/testing.md), [privacy](docs/privacy.md), and [Android limitations](docs/android-limitations.md).

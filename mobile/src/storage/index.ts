@@ -37,7 +37,7 @@ const defaults: Schema = {
     aiDetectionEnabled: false,
     panicAlarmEnabled: false,
     recordingEnabled: false,
-    locationInEmergencyEnabled: false,
+    locationInEmergencyEnabled: true,
   },
 };
 export function createLocalStorage(backend: StringStore) {

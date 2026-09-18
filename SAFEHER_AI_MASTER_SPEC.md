@@ -1717,20 +1717,20 @@ The project is complete when:
 Codex updates this after each completed milestone.
 
 - [ ] Milestone 0 - Environment and baseline
-- [ ] Milestone 1 - Application foundation (implementation ready; device acceptance pending)
+- [x] Milestone 1 - Application foundation (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [x] Milestone 2 - Emergency core (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [x] Milestone 3 - Original safety tools (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING; VIDEO DEFERRED)
 - [x] Milestone 4 - Sensor data collection (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [x] Milestone 5 - Machine learning pipeline
 - [x] Milestone 6 - On-device AI emergency workflow (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
-- [ ] Milestone 7 - Testing, documentation and demo polish
+- [x] Milestone 7 - Testing, documentation and demo polish (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [ ] Milestone 8 - Optional stretch work
 
-Current milestone: `M6 - implementation complete; device validation pending (2026-09-18)`
+Current milestone: `M7 - implementation complete; device validation pending (2026-09-18)`
 
-Last successful Android build: `2026-09-16 - npm run build:android; assembleDebug successful`
+Last successful Android build: `2026-09-18 - npm run build:android; assembleDebug successful (226 tasks)`
 
-Last successful TypeScript check: `2026-09-16 - npm run typecheck`
+Last successful TypeScript check: `2026-09-18 - npm run typecheck`
 
 Last successful ML pipeline run: `2026-09-18 - 40 sessions, session-level split, rule/LR/RF evaluated; export validated`
 
@@ -1738,7 +1738,7 @@ Latest model version: `safeher-lr-1`
 
 Known blockers: `Physical-device validation is pending by instruction. Location fixes, SMS composer integration, and MMKV persistence are implemented but not hardware-verified.`
 
-M1 validation (2026-09-16): 8 Jest tests passed in 2 suites; ESLint and Android JS bundle passed. Storage smoke tests use a mocked native backend. All seven Home destinations and Back navigation pass in Jest. Domain contracts, storage validation/defaults, accessibility labels, and testing/demo docs aligned; existing foundation preserved. No dependencies added. See `docs/testing.md`. M1 remains unchecked until device acceptance; M2 not started.
+M1 validation (2026-09-16): implementation and static/build acceptance are complete; physical-device acceptance remains pending. Storage smoke tests use a mocked native backend. All seven Home destinations and Back navigation pass in Jest. Domain contracts, storage validation/defaults, accessibility labels, and testing/demo docs are aligned. No dependencies added. See `docs/testing.md`.
 
 M2 implementation (2026-09-18): contact CRUD/priority/enablement, deliberate SOS, central EmergencyEngine, foreground Android location bridge, message generation, SMS composer, and persisted event history are complete. Static/build validation recorded in Git commit; physical GPS/SMS/device acceptance remains pending.
 
@@ -1749,6 +1749,8 @@ M4 implementation (2026-09-18): the shared native SensorService streams accelero
 M5 complete (2026-09-18): deterministic synthetic development data validates raw loading, session-aware windows, 28 ordered features, session-level holdout, rule baseline, scaled Logistic Regression, Random Forest, full fall-focused metrics, JSON export, and schema validation. Metrics are explicitly not research results.
 
 M6 implementation (2026-09-18): TypeScript feature extraction passes Python golden-vector parity, exported Logistic Regression runs offline, 2-second windows advance at 50% overlap, phone-drop is suppressed, and possible-fall policy provides cancel/immediate-help/timeout paths through EmergencyEngine. False-alarm feedback persists locally. Live hardware validation remains pending.
+
+M7 final audit (2026-09-18): TypeScript, ESLint, 11 Jest tests in 4 suites, Android debug build, production JavaScript bundle, Python syntax/import checks, deterministic synthetic ML training/evaluation, and model export validation passed. README, architecture, Android limitations, privacy, ML methodology, testing, and demo documentation describe the implemented system and limitations. DEVICE VALIDATION PENDING; no hardware behavior is claimed as verified.
 
 ---
 

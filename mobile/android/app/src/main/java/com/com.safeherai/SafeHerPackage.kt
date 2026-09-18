@@ -5,8 +5,9 @@ import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 
+@Suppress("OVERRIDE_DEPRECATION")
 class SafeHerPackage : ReactPackage {
-  override fun createNativeModules(context: ReactApplicationContext): List<NativeModule> =
-    listOf(SafeHerNativeModule(context))
-  override fun createViewManagers(context: ReactApplicationContext): List<ViewManager<*, *>> = emptyList()
+  override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> =
+    listOf(SafeHerNativeModule(reactContext))
+  override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> = emptyList()
 }
