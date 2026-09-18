@@ -20,6 +20,10 @@ Triggers (SOS, shake, AI) call one Emergency Engine, which requests location, bu
 
 Labeled IMU sessions are exported from the app, trained in `ai/`, and a compact exported model can later run on-device. Training uses safe simulated activities only.
 
+## Sensor collection
+
+One Android sensor bridge serves shake detection, labelled collection, and AI monitoring. Session collectors combine the latest gyroscope reading with accelerometer samples at an approximately 50 Hz request rate, never mix session IDs, and save the required CSV columns into private app storage before an explicit share action.
+
 ## Milestone 1 implementation
 
 React Navigation native-stack connects eight screens. MMKV stores `v1.profile`, `v1.contacts`, `v1.settings`, and `v1.history`; schemas are checked at the storage boundary. Defaults contain no personal contacts, and automatic escalation defaults off. Native storage is mocked in Jest; tests cover repository behavior rather than claiming device persistence verification.

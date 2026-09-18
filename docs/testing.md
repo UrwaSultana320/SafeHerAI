@@ -15,6 +15,8 @@ Jest checks navigation, storage round trips, validation, conservative defaults, 
 
 Only safe simulated activities are permitted for future sensor testing. M1 collects no sensors and performs no emergency actions.
 
+Sensor collection hardware checks remain pending: verify both IMUs, approximate rate, timestamps, labels, sample count, CSV readability, and share behavior using safe movements only. Never perform a real fall.
+
 ## Latest results — 2026-09-16
 
 - TypeScript and ESLint passed.

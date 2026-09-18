@@ -1720,13 +1720,13 @@ Codex updates this after each completed milestone.
 - [ ] Milestone 1 - Application foundation (implementation ready; device acceptance pending)
 - [x] Milestone 2 - Emergency core (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [x] Milestone 3 - Original safety tools (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING; VIDEO DEFERRED)
-- [ ] Milestone 4 - Sensor data collection
+- [x] Milestone 4 - Sensor data collection (IMPLEMENTATION COMPLETE — DEVICE VALIDATION PENDING)
 - [ ] Milestone 5 - Machine learning pipeline
 - [ ] Milestone 6 - On-device AI emergency workflow
 - [ ] Milestone 7 - Testing, documentation and demo polish
 - [ ] Milestone 8 - Optional stretch work
 
-Current milestone: `M3 - implementation complete; device validation pending (2026-09-18)`
+Current milestone: `M4 - implementation complete; device validation pending (2026-09-18)`
 
 Last successful Android build: `2026-09-16 - npm run build:android; assembleDebug successful`
 
@@ -1743,6 +1743,8 @@ M1 validation (2026-09-16): 8 Jest tests passed in 2 suites; ESLint and Android 
 M2 implementation (2026-09-18): contact CRUD/priority/enablement, deliberate SOS, central EmergencyEngine, foreground Android location bridge, message generation, SMS composer, and persisted event history are complete. Static/build validation recorded in Git commit; physical GPS/SMS/device acceptance remains pending.
 
 M3 implementation (2026-09-18): shared accelerometer shake trigger with debounce/countdown, panic alarm/vibration, fake-call simulation, and explicit local audio recording are complete. Physical audio/sensor validation remains pending. Video is deferred because the current dependency-free native architecture has no camera recording stack; adding one during this run would risk build stability.
+
+M4 implementation (2026-09-18): the shared native SensorService streams accelerometer and gyroscope data near 50 Hz. Labelled sessions use a safe start countdown, duration/sample display, required CSV schema, local file storage, session list, and Android share sheet. Hardware sampling/export acceptance remains pending.
 
 ---
 
