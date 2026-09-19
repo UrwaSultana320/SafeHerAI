@@ -1,63 +1,172 @@
 # SafeHer AI
+## Intelligent Women Safety & Emergency Response System
 
-SafeHer AI is an Android-first women-safety and emergency-response portfolio prototype. It rebuilds an undergraduate Final Year Project—SOS, trusted contacts, panic alarm, fake call, and recording—and adds a local sensor-based fall-detection research pipeline.
+An Android-first academic prototype that combines established mobile safety tools with local, sensor-based emergency detection and human confirmation.
 
-> This is not a certified medical, public-safety, or production emergency product. It does not replace official emergency services. False alarms and missed detections are expected; only safe simulated movement testing is permitted.
+## Project Overview
 
-## Features
+SafeHer AI reconstructs and extends my undergraduate **Women Safety Application** Final Year Project (FYP).
 
-- Local emergency-contact CRUD with priority, validation, and enable/disable controls
-- Deliberate press-and-hold SOS through one central `EmergencyEngine`
-- Foreground last-known/fresh GPS lookup with timeout and permission handling
-- User-reviewed Android SMS composer with identity, trigger, time, coordinates, and Maps URL
-- Honest local emergency history, including failures
-- Debounced shake trigger with cancellation countdown
-- Panic alarm/vibration, local fake-call simulation, and explicit local audio recording
-- Labelled accelerometer/gyroscope collection near 50 Hz, private CSV save, and explicit export/share
-- Python pipeline comparing a rule baseline, scaled Logistic Regression, and Random Forest
-- Offline TypeScript Logistic Regression with Python/TypeScript golden-vector parity
-- Phone-drop suppression, possible-fall countdown, immediate help, timeout escalation, and local false-alarm feedback
+The original FYP focused on emergency contacts, GPS/GPRS location tracking, emergency SMS, a shake emergency trigger, panic alarm, fake call, and audio/video safety functionality. The reconstructed application preserves the practical safety workflow while adding accelerometer and gyroscope collection, machine-learning-based fall/emergency detection, phone-drop versus possible-fall classification, confidence-aware decisions, false-alarm reduction, a user-confirmation countdown, local/offline inference, and timeout-based emergency escalation.
 
-Video recording is the only deferred original feature: the current project has no compatible camera recording stack, and hidden recording is intentionally prohibited.
+The current implementation is a small-scale prototype. It does not claim real-world fall-detection accuracy or production readiness.
 
-## Architecture
+## Why I Revisited This Project
+
+I originally developed the Women Safety Application as my undergraduate FYP. After several years of professional software-engineering experience and a transition toward AI/ML, I revisited the problem to explore how machine learning could improve emergency detection while reducing false alerts.
+
+## Key Features
+
+### Emergency & Safety
+
+- Local user profile and prioritized emergency-contact management
+- Press-and-hold manual SOS through a central emergency engine
+- Foreground location retrieval and a user-reviewed Android SMS composer
+- Debounced shake trigger with a cancellation countdown
+- Panic alarm, fake-call simulation, and visible local audio recording
+- Local emergency history with honest success and failure states
+
+### AI / Machine Learning
+
+- Accelerometer and gyroscope input at approximately 50 Hz
+- Rule-based baseline, Logistic Regression, and Random Forest comparison
+- Offline TypeScript inference using an exported Logistic Regression model
+- Confidence-aware phone-drop suppression and possible-fall handling
+- “I'm Safe,” “Send Help Now,” and timeout-escalation paths
+- Python/TypeScript golden-vector feature-parity validation
+
+### Data Collection & Evaluation
+
+- Labelled, session-based sensor collection
+- Private CSV storage with explicit export/share
+- Two-second sensor windows with 50% overlap
+- Fixed 28-feature contract shared by Python and TypeScript
+- Session-level train/test separation to reduce leakage
+- Fall-focused evaluation including false-positive and false-negative rates
+
+## System Architecture
 
 ```text
-SOS / shake / AI fall
-        ↓
-EmergencyEngine → foreground location → message → SMS composer → event history
-
-accelerometer + gyroscope → 2 s windows → ordered features
-        → rule baseline + local Logistic Regression → decision policy
-        → phone-drop suppression OR fall countdown → EmergencyEngine
+Manual SOS / Shake / AI Fall Detection
+                  ↓
+      Decision / Confirmation Policy
+                  ↓
+           Emergency Engine
+                  ↓
+     Location + Emergency Message
+                  ↓
+   SMS Workflow + Emergency History
 ```
-
-The system is local-first and has no Firebase, cloud backend, analytics, or remote inference. React Native screens use a small Kotlin bridge for location, sensors, alarm, recording, and private-file sharing. MMKV holds structured local state.
-
-## Technology
-
-- React Native 0.87.1, React 19, TypeScript, React Navigation, MMKV
-- Android/Kotlin native bridge; minimum API 26, target API 36
-- Python 3, NumPy, pandas, scikit-learn
-- Jest, ESLint, TypeScript, Gradle
-
-## Repository
 
 ```text
-mobile/src/ai/          feature extraction and local inference
-mobile/src/screens/     emergency, safety, sensor, and AI UI
-mobile/src/services/    EmergencyEngine and native service adapters
-mobile/src/storage/     validated local persistence
-mobile/android/         Kotlin bridge and Android configuration
-ai/scripts/             generation, validation, features, training, export
-ai/models/              exported Logistic Regression and golden vector
-ai/evaluation/          synthetic development evaluation
-docs/                   architecture, privacy, testing, demo, limitations
+Accelerometer + Gyroscope
+             ↓
+       Sensor Windows
+             ↓
+     Feature Extraction
+             ↓
+Rule Baseline + ML Classifier
+             ↓
+     Confidence / Class
+             ↓
+ Emergency Decision Policy
 ```
 
-## Setup and validation
+Emergency-critical processing is local-first. The application has no cloud backend or remote inference dependency.
 
-Requirements: Node 22.11+, npm, Android SDK platform 37/build tools 37, NDK 27.1.12297006, and a compatible JDK. On Windows, the build script discovers Android Studio's bundled JDK and default SDK.
+## AI / ML Methodology
+
+Sensor sessions use the core labels `normal`, `walking`, `running`, `phone_drop`, and `simulated_fall`. Samples are grouped into time windows without crossing session boundaries, then converted into an ordered feature vector covering acceleration, gyroscope motion, jerk, post-impact variance, and orientation change.
+
+The pipeline compares a documented rule-based baseline with scaled, class-weighted Logistic Regression and Random Forest. Evaluation reports accuracy, precision, recall, F1-score, confusion matrices, false-positive rate, and false-negative rate. Model selection is not based on accuracy alone; possible-fall recall, false negatives, false positives, portability, and interpretability are also considered.
+
+The current pipeline data is **synthetic development data used only to validate the software workflow**. Its metrics are not presented as research results.
+
+## On-Device AI
+
+The selected lightweight Logistic Regression model is exported to JSON and reproduced in TypeScript so inference can run locally on Android rather than through a remote Python API. Each completed sensor window produces class probabilities and model confidence. Normal activity continues monitoring, phone-drop predictions are suppressed, and a sufficiently confident possible fall opens a countdown where the user can select **I'm Safe** or **Send Help Now**. If the countdown expires, the central emergency engine escalates the event.
+
+## Technology Stack
+
+| Area | Technologies |
+| --- | --- |
+| Mobile | React Native, TypeScript, Android, Kotlin native bridge |
+| AI/ML | Python, scikit-learn, pandas, NumPy |
+| Storage | MMKV local storage, app-private filesystem |
+| Development | Git, GitHub, Jest, ESLint, Gradle |
+
+## Repository Structure
+
+```text
+SafeHerAI/
+├── mobile/                     # React Native app and Android bridge
+├── ai/                         # Data, training, evaluation, and export pipeline
+├── docs/                       # Architecture, methodology, testing, and limitations
+├── AGENTS.md                   # Repository working instructions
+├── SAFEHER_AI_MASTER_SPEC.md   # Project specification and progress ledger
+└── README.md
+```
+
+## Original FYP vs SafeHer AI
+
+| Original FYP | SafeHer AI |
+| --- | --- |
+| User-triggered emergency | Manual and AI-assisted detection |
+| GPS/GPRS tracking | Structured foreground location service |
+| SMS alerts | Central emergency-engine workflow with SMS composer |
+| Shake trigger | Shake plus sensor-driven AI |
+| Rule-based behavior | Rule baseline plus ML classifiers |
+| No confidence estimate | Confidence-aware decisions |
+| Basic false-alarm handling | Countdown and user feedback |
+| No ML evaluation | Precision, recall, F1, FPR, and FNR evaluation |
+
+## Current Project Status
+
+- Core implementation: complete
+- TypeScript: passed
+- Lint: passed
+- Automated tests: 11/11 passed
+- Android debug build: passed
+- ML training/export pipeline: passed
+- Physical-device validation: pending
+
+These automated results were recorded during the final audit on 18 September 2026. The ML pipeline currently uses **synthetic/development data** for software validation because real sensor collection has not yet been performed on a physical Android device. Synthetic-data metrics must not be interpreted as real-world or research performance.
+
+## Device Validation Pending
+
+The next validation phase is to verify the implemented workflows on a physical Android device:
+
+- GPS retrieval and permission/error states
+- SMS composer recipients and message content
+- MMKV/native persistence after restart
+- Accelerometer and gyroscope sampling
+- CSV sensor save and export
+- Alarm, fake call, and visible audio recording
+- AI countdown, cancellation, immediate help, and timeout escalation
+
+## Research Limitations
+
+- The present ML evaluation uses simulated/synthetic development data.
+- This is a small-scale prototype, not a medical or public-safety certified system.
+- Real-world fall detection requires substantially larger, more diverse, safely collected datasets.
+- Android device, SMS-app, permission, battery, DND, and OEM behavior may vary.
+- Video recording is deferred; hidden recording is intentionally prohibited.
+
+## Future Work
+
+- Collect safe, consented, multi-user sensor data
+- Evaluate the model and full workflow on physical devices
+- Improve false-positive reduction using real observations
+- Test additional models only when evidence justifies the added complexity
+- Explore an optional voice emergency trigger
+- Explore optional cloud synchronization without weakening the local emergency path
+- Broaden Android device and OEM testing
+
+## Setup
+
+Prerequisites: Node.js 22.11 or later, npm, Python 3, Android SDK platform/build tools 37, NDK 27.1.12297006, and a compatible JDK. On Windows, the included build script can discover Android Studio's bundled JDK and the default Android SDK location.
+
+Install and validate the mobile application:
 
 ```sh
 cd mobile
@@ -68,35 +177,30 @@ npm test -- --runInBand
 npm run build:android
 ```
 
-To run, connect an authorized Android device or boot an emulator, start Metro with `npm start`, then use `npm run android`. A successful debug build does not prove GPS, SMS, microphone, alarm, sensor, or runtime behavior.
+To run on Android, connect an authorized device or start an emulator, run `npm start`, and then run `npm run android` in a second terminal.
 
-ML validation from `ai/`:
+Install and validate the ML pipeline:
 
 ```sh
+cd ai
 python -m pip install -r requirements.txt
 python scripts/generate_development_data.py
 python scripts/train.py
 python scripts/validate_export.py
 ```
 
-The generated data is deterministic synthetic development data. Its metrics prove the code path only and must not be cited as real-world research performance. Windows are 2 seconds at 50 Hz with 50% overlap and session-level holdout; windows never cross sessions. Model selection considers possible-fall recall, false-negative rate, false-positive rate, portability, and interpretability—not accuracy alone.
+See [docs/testing.md](docs/testing.md) for validation scope and [docs/ml-methodology.md](docs/ml-methodology.md) for the feature and evaluation methodology.
 
-## Emergency workflow
+## Screenshots
 
-Configure a profile and at least one enabled contact. SOS, shake, and AI use the same engine. If location is enabled, the engine asks just in time, uses a recent last-known fix or requests a fresh fix, generates the message, opens the installed SMS app, and records whether the composer opened or why it failed. The user must tap Send; silent SMS is not claimed.
+Screenshots will be added after physical-device validation.
 
-## Limitations and future work
+## Demo
 
-- Physical-device and emulator runtime acceptance is pending.
-- Foreground-only sensors/location; OEM background and battery policies are not bypassed.
-- SMS composer behavior varies by installed app and does not prove delivery.
-- DND and volume settings can limit alarm sound.
-- The model uses synthetic development data and needs safe, consented, participant-separated real data.
-- Audio files, contact data, location history, and MMKV values are app-private but not application-level encrypted.
-- Future work includes real-device evaluation, accessibility testing, calibrated thresholds, participant-level research, and a compatible visible video-recording flow.
+A device demonstration will be recorded after runtime validation. The planned safe demonstration flow is documented in [docs/demo-script.md](docs/demo-script.md).
 
-## Demo and screenshots
+## Disclaimer
 
-Use [docs/demo-script.md](docs/demo-script.md) for the safe demo flow. Add real screenshots only after device validation; place them under `docs/screenshots/` and caption device/API and build commit. Do not fabricate screenshots or emergency outcomes.
+SafeHer AI is an academic/research prototype and is not a certified medical or emergency-response system.
 
-See [architecture](docs/architecture.md), [ML methodology](docs/ml-methodology.md), [testing](docs/testing.md), [privacy](docs/privacy.md), and [Android limitations](docs/android-limitations.md).
+Further technical detail is available in [architecture](docs/architecture.md), [Android limitations](docs/android-limitations.md), and [privacy](docs/privacy.md).
